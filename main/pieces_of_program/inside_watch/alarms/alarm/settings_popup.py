@@ -2,6 +2,8 @@ from tkinter import *
 from ....database import alarms
 def render(current_alarm):
     global notify_dropdown
+    if current_alarm.alarm_clock.stop == False:
+        current_alarm.pause()
     settings_window = Toplevel()
     settings_window.iconbitmap("../Images/Stopwatch Time Manager.ico")
 
@@ -11,7 +13,7 @@ def render(current_alarm):
 
     # Settings for changing alarm time
     timevar = StringVar(settings_window)
-    timevar.set("0:00:05")
+    timevar.set(current_alarm.alarm_clock.initial_time)
 
     time_entry = Entry(settings_window, textvariable=timevar)
     time_entry.grid(row=0, column=3, columnspan=2)
@@ -95,18 +97,32 @@ def render(current_alarm):
 
 
     save_button = Button(settings_window, text="Save Settings", command=lambda: save_settings(current_alarm,
-                        timevar.get(), notify_time_specific.get(), notify_time.get(), alarm_sound_tk_var.get()))
+                        timevar.get(), specific_time_choice.get(), notify_time_specific.get(), notify_time.get(),
+                                                                                              alarm_sound_tk_var.get()))
     save_button.grid(row=6, column=3, columnspan=2)
 
-    def save_settings(current_alarm, new_time, new_notify_time_specific, new_notify_time, new_alarm_sound):
-        current_alarm.remaining_time = new_time
-        current_alarm.beginning_time = new_time
+
+    def save_settings(current_alarm, new_time, is_specific_time_checked, new_notify_time_specific, new_notify_time,
+                      new_alarm_sound):
+
+        # current_alarm.remaining_time = new_time
+        # current_alarm.beginning_time = new_time
+
+        current_alarm.is_specific_time_checked = is_specific_time_checked
+
+        current_alarm.alarm_clock.initial_time = new_time
+        current_alarm.alarm_clock.remaining_time = new_time
+
         current_alarm.alarm_clock.digital.config(text=new_time)
-        current_alarm.notify_time_specific =  new_notify_time_specific
+        current_alarm.notify_time_specific = new_notify_time_specific
         current_alarm.notify_time = new_notify_time
         current_alarm.alarm_sound = new_alarm_sound
 
         prepared_data = current_alarm.get_prepared_data()
         prepared_data.append(current_alarm.alarm_id)
         alarms.update_alarm(prepared_data)
+        if current_alarm.reset_button.button['state'] == NORMAL:
+            current_alarm.reset()
+
         settings_window.destroy()
+

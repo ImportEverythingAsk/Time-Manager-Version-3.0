@@ -12,5 +12,10 @@ def insert_watch(prepared_data):
                    VALUES (?, ?, ?, ?, ?, ?)""", (prepared_data))
     conn.commit()
 
+def update_data(prepared_data):
+    sql_update = ('UPDATE watches SET watch_name = :value1, run_next_alarm_immediately = :value2 WHERE rowid = ?')
+    c.execute(sql_update, prepared_data)
 
-    # self.load_data()
+    conn.commit()
+
+    # load_data()

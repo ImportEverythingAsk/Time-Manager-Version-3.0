@@ -23,7 +23,7 @@ class Managing_Watches():
         add_watch_button = Button(self.managing_watches_frame, text="Add Watch", padx=60)
         add_watch_button.grid(row=0, column=0)
         add_watch_button.bind('<Button-1>', lambda e:self.popup_making())
-        self.menu = Watch_Menu(self.managing_watches_frame)
+        self.menu = Watch_Menu(self.main_app, self.managing_watches_frame)
         self.menu.render()
 
     def popup_making(self):

@@ -8,5 +8,10 @@ class Watch_Button:
         self.watch_name_button = Button(self.frame_of_watches, text=self.watch_name, width=23, anchor=W, bg="gold",
                                         command=self.watch_clicked)
         self.watch_name_button.grid(row=self.watch_id, column=0)
+
+    def set_watch_lists(self, watch_button_list, watch_settings_button_list):
+        self.watch_button_list= watch_button_list
+        self.watch_settings_button_list = watch_settings_button_list
+
     def watch_clicked(self):
         print("need to make watch clicked function")

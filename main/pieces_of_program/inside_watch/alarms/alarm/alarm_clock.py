@@ -2,6 +2,7 @@ from tkinter import *
 from datetime import *
 
 class Alarm_Clock:
+    stop = True
     def __init__(self, alarm_box, default_time):
         self.alarm_box = alarm_box
         self.default_time = default_time
@@ -13,13 +14,13 @@ class Alarm_Clock:
         self.digitalbox = LabelFrame(self.alarm_box)
         self.digitalbox.grid(row=1, column=0)
 
-        self.digital = Label(self.digitalbox, text=self.default_time)
+        self.digital = Label(self.digitalbox, text=self.initial_time)
         self.digital.grid(row=0, column=0)
 
     def start(self):
         self.stop = False
         start_time = datetime.today()
-        time_parts = self.default_time.split(':')
+        time_parts = self.initial_time.split(':')
         interval = timedelta(hours=int(time_parts[0]), minutes=int(time_parts[1]), seconds=int(time_parts[2])+1)
 
         self.final_time = start_time + interval
@@ -43,4 +44,5 @@ class Alarm_Clock:
 
         remainingTime = tempTime + timedelta(seconds=remaining)
         print(remainingTime.strftime("%H:%M:%S"))
-        return remainingTime.strftime("%H:%M:%S")
+        self.remaining_time = remainingTime.strftime("%H:%M:%S")
+        return self.remaining_time

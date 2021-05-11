@@ -7,13 +7,13 @@ from . import settings_popup
 from ....database import alarms
 class Alarm:
     alarm_name = "Alarms Name"
-    beginning_time = "0:02:05"
-    remaining_time = "0:02:05"
+    # beginning_time = "0:02:05"
+    # remaining_time = "0:02:05"
     is_specific_time_checked = 0
     notify_dropdown_time = "None"
     specific_notify_time = "None"
     alarm_sound = "Classic Alarm"
-    default_time = beginning_time
+    default_time = "0:02:05"
     def __init__(self, alarms_frame, row, column, watch_id):
         self.alarms_frame = alarms_frame
         self.row = row
@@ -54,9 +54,9 @@ class Alarm:
         return alarm_box
 
     def get_prepared_data(self):
-        prepared_data = [self.row, self.column, self.alarm_name.namevar.get(), self.beginning_time, self.remaining_time,
-                         self.is_specific_time_checked, self.notify_dropdown_time, self.specific_notify_time,
-                         self.alarm_sound, self.watch_id]
+        prepared_data = [self.row, self.column, self.alarm_name.namevar.get(), self.alarm_clock.initial_time,
+                         self.alarm_clock.remaining_time, self.is_specific_time_checked, self.notify_dropdown_time,
+                         self.specific_notify_time, self.alarm_sound, self.watch_id]
         return prepared_data
 
     def play(self):
