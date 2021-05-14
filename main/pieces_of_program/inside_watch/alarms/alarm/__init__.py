@@ -1,4 +1,5 @@
 from tkinter import *
+from pygame import mixer
 from ...alarms import images_handler
 from .alarm_clock import Alarm_Clock
 from .alarm_name import Alarm_Name
@@ -13,8 +14,9 @@ class Alarm:
     notify_dropdown_time = "None"
     specific_notify_time = "None"
     alarm_sound = "Classic Alarm"
-    default_time = "0:02:05"
-    def __init__(self, alarms_frame, row, column, watch_id):
+    default_time = "00:00:05"
+    def __init__(self, app, alarms_frame, row, column, watch_id):
+        self.app = app
         self.alarms_frame = alarms_frame
         self.row = row
         self.column = column
@@ -26,28 +28,32 @@ class Alarm:
         disabled_images = from_images_handler[1]
         setting_image = from_images_handler[2]
 
-        alarm_box = Frame(self.alarms_frame)
+
+        extra_design_frame = LabelFrame(self.alarms_frame, background=self.app.alarm_border_color, relief=FLAT, borderwidth=5)
+        extra_design_frame.grid(row=self.row, column=self.column, padx=1, pady=1)
+        alarm_box = Frame(extra_design_frame, borderwidth=15, background=self.app.alarm_bg_color)
         alarm_box.grid(row=self.row, column=self.column)
 
-        self.alarm_name = Alarm_Name(alarm_box, "Example Name")
+        self.alarm_name = Alarm_Name(self.app, alarm_box, "Example Name")
         self.alarm_name.render()
 
 
-        self.alarm_clock = Alarm_Clock(alarm_box, self.default_time)
+        self.alarm_clock = Alarm_Clock(self.app, alarm_box, self.default_time)
         self.alarm_clock.render()
 
-        self.buttonbox = LabelFrame(alarm_box)
-        self.buttonbox.grid(row=2, column=0)
-        self.reset_button = ButtonObject(self.buttonbox, images['reset'], disabled_images['reset'], DISABLED,
+        self.buttonbox = Frame(alarm_box)
+        self.buttonbox.grid(row=2, column=0, padx=2, pady=5)
+        self.reset_button = ButtonObject(self.app, self.buttonbox, images['reset'], disabled_images['reset'], DISABLED,
                                          command=self.reset)
         self.reset_button.button.grid(row=0, column=0)
-        self.play_button = ButtonObject(self.buttonbox, images['play'], disabled_images['play'], NORMAL,
+        self.play_button = ButtonObject(self.app, self.buttonbox, images['play'], disabled_images['play'], NORMAL,
                                         command=self.play)
         self.play_button.button.grid(row=0, column=1)
-        self.pause_button = ButtonObject(self.buttonbox, images['pause'], disabled_images['pause'], DISABLED,
+        self.pause_button = ButtonObject(self.app, self.buttonbox, images['pause'], disabled_images['pause'], DISABLED,
                                          command=self.pause)
         self.pause_button.button.grid(row=0, column=2)
-        settings = Button(self.buttonbox, image=setting_image, command=lambda: settings_popup.render(self))
+        settings = Button(self.buttonbox, image=setting_image,
+                          bg=self.app.timer_buttons_color, command=lambda: settings_popup.render(self))
         settings.grid(row=0, column=3)
 
         self.alarm_id = alarms.insert_alarm(self.get_prepared_data())
@@ -93,4 +99,8 @@ class Alarm:
             return
         remaining_time = self.alarm_clock.getRemainingTime()
         self.alarm_clock.digital.config(text=remaining_time)
+        if remaining_time == "00:00:00":
+            mixer.init()
+            mixer.music.load("../Sounds/FIZZZZZ.wav")
+            mixer.music.play()
         self.buttonbox.after(1000, self.countdown)

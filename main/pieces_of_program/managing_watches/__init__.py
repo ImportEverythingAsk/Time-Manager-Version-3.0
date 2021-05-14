@@ -11,23 +11,22 @@ from .watch_menu import watch_settings
 
 class Managing_Watches():
     watch_total = 0
-    def __init__(self, root, database, main_app):
-        self.root = root
-        self.database = database
-        self.main_app = main_app
+    def __init__(self, app):
+        self.app = app
     def render(self):
-        self.managing_watches_frame = LabelFrame(self.root)
+        self.managing_watches_frame = LabelFrame(self.app.root, bg=self.app.secondary_bg_color, padx=3, pady=5)
         self.managing_watches_frame.grid(row=0, column=0)
         # watch_menu = Watch_Menu(managing_watches_frame, self.database)
 
-        add_watch_button = Button(self.managing_watches_frame, text="Add Watch", padx=60)
+        add_watch_button = Button(self.managing_watches_frame, text="Add Watch", padx=60, bg=self.app.add_watch_bg_color,
+                                  fg=self.app.add_watch_fg_color)
         add_watch_button.grid(row=0, column=0)
         add_watch_button.bind('<Button-1>', lambda e:self.popup_making())
-        self.menu = Watch_Menu(self.main_app, self.managing_watches_frame)
+        self.menu = Watch_Menu(self.app)
         self.menu.render()
 
     def popup_making(self):
-        window = add_watch.render(self.root)
+        window = add_watch.render(self.app.root)
         done = Button(window, text="Add Watch", command=lambda: self.make_watch_managing_watch_side(window))
         done.grid(row=4, column=1)
 
@@ -61,5 +60,5 @@ class Managing_Watches():
 
             #         NEED TO: Make watch buttons on GUI Leftside
         self.menu.make_new_menu_watches(watch_name, self.watch_total)
-        self.main_app.make_watch_main_app_side(watch_name, total_alarms, self.watch_total)
+        self.app.make_watch_app_side(watch_name, total_alarms, self.watch_total)
         window.destroy()

@@ -3,7 +3,8 @@ from datetime import *
 
 class Alarm_Clock:
     stop = True
-    def __init__(self, alarm_box, default_time):
+    def __init__(self, app, alarm_box, default_time):
+        self.app = app
         self.alarm_box = alarm_box
         self.default_time = default_time
         self.initial_time = default_time
@@ -11,10 +12,12 @@ class Alarm_Clock:
         self.remaining_time = default_time
 
     def render(self):
-        self.digitalbox = LabelFrame(self.alarm_box)
-        self.digitalbox.grid(row=1, column=0)
+        self.digitalbox = Frame(self.alarm_box)
+        self.digitalbox.grid(row=1, column=0, pady=7)
 
-        self.digital = Label(self.digitalbox, text=self.initial_time)
+        self.digital = Label(self.digitalbox, text=self.initial_time, font=self.app.digital_timer_font, padx=23,
+                            bg=self.app.digital_timer_bg_color
+)
         self.digital.grid(row=0, column=0)
 
     def start(self):

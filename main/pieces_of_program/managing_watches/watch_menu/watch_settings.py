@@ -10,8 +10,8 @@ class Watch_Settings:
     def render(self):
 
         self.watch_settings_button = Button(self.frame_of_watches, text=":", command=self.open_watch_settings,
-                                            bg="gold")
-        self.watch_settings_button.grid(row=self.watch_id, column=1)
+                                            bg=self.app.selected_watch_bg_color)
+        self.watch_settings_button.grid(row=self.watch_id, column=1, pady=1)
 
     def set_watch_lists(self, watch_button_list, watch_settings_button_list):
         self.watch_button_list= watch_button_list
