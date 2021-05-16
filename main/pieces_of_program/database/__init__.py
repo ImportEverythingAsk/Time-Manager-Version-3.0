@@ -18,7 +18,6 @@ class Database:
             self.load_data()
 
     def create_db(self):
-        print("creating")
         self.c.execute("""CREATE TABLE watches (
                             watch_name text,
                             notes text,
@@ -42,7 +41,7 @@ class Database:
         self.conn.commit()
 
     def load_data(self):
-        print("loading")
+        print("loading data needs to be made")
 
     def closing_program(self):
         self.c.execute("SELECT * from alarms")

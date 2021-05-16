@@ -10,9 +10,18 @@ class Watch_Button:
                                         bg=self.app.selected_watch_bg_color, command=self.watch_clicked)
         self.watch_name_button.grid(row=self.watch_id, column=0, pady=1)
 
-    def set_watch_lists(self, watch_button_list, watch_settings_button_list):
-        self.watch_button_list= watch_button_list
-        self.watch_settings_button_list = watch_settings_button_list
-
     def watch_clicked(self):
-        print("need to make watch clicked function")
+        # Changing color of previously highlighted watch
+        # AND Change which watch is opened in watch menu
+        self.app.watch_manager.menu.current_watch_id = self.watch_id
+        self.app.watch_manager.menu.change_current_watch(self)
+
+        # Highlight this watch
+        self.highlight()
+        self.app.watch_manager.menu.current_watch_settings.highlight()
+
+
+    def highlight(self):
+        self.watch_name_button.config(bg=self.app.selected_watch_bg_color)
+    def unhighlight(self):
+        self.watch_name_button.config(bg=self.app.watches_list_color)

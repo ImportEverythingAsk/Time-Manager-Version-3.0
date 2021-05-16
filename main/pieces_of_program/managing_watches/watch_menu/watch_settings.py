@@ -1,5 +1,6 @@
 from tkinter import *
 from ...database import watches
+from ...database import alarms
 class Watch_Settings:
     def __init__(self, app, frame_of_watches, watch_name, watch_id):
         self.app = app
@@ -13,9 +14,6 @@ class Watch_Settings:
                                             bg=self.app.selected_watch_bg_color)
         self.watch_settings_button.grid(row=self.watch_id, column=1, pady=1)
 
-    def set_watch_lists(self, watch_button_list, watch_settings_button_list):
-        self.watch_button_list= watch_button_list
-        self.watch_settings_button_list = watch_settings_button_list
 
     def open_watch_settings(self):
         self.popup_window = Toplevel()
@@ -68,4 +66,45 @@ class Watch_Settings:
 
         self.popup_window.destroy()
     def remove_watch_action(self):
+        # Removing data from the database
+        watches.delete_watch(self.watch_id)
+        alarms.delete_alarms(self.watch_id)
+
+        # Clearing a watch from the screen (GUI right side)
+        if self.watch_id == self.app.inside_watch.current_all_alarms.watch_id:
+            self.app.inside_watch.clear()
+
+        # Removing the menu buttons from the screen
+        self.app.watch_manager.menu.watch_button_dict[self.watch_id].watch_name_button.grid_remove()
+        self.watch_settings_button.grid_remove()
+        new_key = self.app.watch_manager.menu.current_watch_id
+        # Highlighting the menu buttons of the watch that is automatically opened.
+        if self.app.watch_manager.menu.current_watch_id == self.watch_id:
+            new_key = self.check_highlight()
+        self.app.watch_manager.menu.remove_and_change_watches(self.watch_id, new_key)
         self.popup_window.destroy()
+
+    def check_highlight(self):
+        list_verison = list(self.app.watch_manager.menu.watch_button_dict)
+        if len(self.app.watch_manager.menu.watch_button_dict) == 1:
+            print("Was only 1 watch")
+            key = 0
+        elif len(list_verison[0:list_verison.index(self.watch_id)]) > 0:
+            print("Going to watch above")
+            key = list_verison[list_verison.index(self.watch_id) - 1]
+        else:
+            print("Going to watch below")
+
+            key = list_verison[list_verison.index(self.watch_id) + 1]
+
+
+        if key > 0:
+            self.app.watch_manager.menu.watch_button_dict[key].highlight()
+            self.app.watch_manager.menu.watch_settings_button_dict[key].highlight()
+        self.app.watch_manager.menu.current_watch_id = key
+        return key
+
+    def highlight(self):
+        self.watch_settings_button.config(bg=self.app.selected_watch_bg_color)
+    def unhighlight(self):
+        self.watch_settings_button.config(bg=self.app.watches_list_color)

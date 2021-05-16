@@ -24,10 +24,7 @@ def render(root):
     alarms_total_entry.grid(row=3, column=0, columnspan=2)
     cancel = Button(add_window, text="Cancel", command=add_window.destroy)
     cancel.grid(row=4, column=0)
-    from_popup = [add_window, watch_name.get(), total_alarms.get()]
     return add_window
 
 def give_info():
-    # watch_name.get()
-    # total_alarms.get()
     return watch_name.get(), total_alarms.get()
