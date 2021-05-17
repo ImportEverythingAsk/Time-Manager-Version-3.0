@@ -53,7 +53,7 @@ class Alarm:
                                          command=self.pause)
         self.pause_button.button.grid(row=0, column=2)
         settings = Button(self.buttonbox, image=setting_image,
-                          bg=self.app.timer_buttons_color, command=lambda: settings_popup.render(self))
+                          bg=self.app.timer_buttons_color, command=lambda: settings_popup.render(self, self.app))
         settings.grid(row=0, column=3)
 
         self.alarm_id = alarms.insert_alarm(self.get_prepared_data())

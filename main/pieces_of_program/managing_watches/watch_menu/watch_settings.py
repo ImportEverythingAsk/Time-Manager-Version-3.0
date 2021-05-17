@@ -19,38 +19,41 @@ class Watch_Settings:
         self.popup_window = Toplevel()
         self.popup_window.iconbitmap("../Images/Stopwatch Time Manager.ico")
         self.popup_window.title("Watch Settings")
+        self.popup_window.config(bg=self.app.watch_settings_bg)
 
-        change_watch_name_label = Label(self.popup_window, text="Change Watch Name?")
+        change_watch_name_label = Label(self.popup_window, text="Change Watch Name?", bg=self.app.watch_settings_bg, fg=self.app.watch_settings_main_bg)
         change_watch_name_label.grid(row=0, column=0)
 
         self.watch_name_var = StringVar()
-        change_watch_name_entry = Entry(self.popup_window, textvariable=self.watch_name_var, width=50)
+        change_watch_name_entry = Entry(self.popup_window, textvariable=self.watch_name_var, width=50, bg=self.app.watch_settings_main_bg)
         change_watch_name_entry.grid(row=0, column=1)
         change_watch_name_entry.insert(0, self.watch_name)
 
         def checkbox_action():
             if self.run_next_alarm_immediately_var.get() == 0:
-                yes_or_no_label = Label(self.popup_window, text="No")
+                yes_or_no_label = Label(self.popup_window, text="No", bg=self.app.watch_settings_bg, fg=self.app.watch_settings_main_bg)
                 yes_or_no_label.grid(row=1, column=2)
             else:
-                yes_or_no_label = Label(self.popup_window, text="Yes")
+                yes_or_no_label = Label(self.popup_window, text="Yes", bg=self.app.watch_settings_bg, fg=self.app.watch_settings_main_bg)
                 yes_or_no_label.grid(row=1, column=2)
 
         run_next_alarm_label = Label(self.popup_window,
                                      text="Do you want to run your next alarm immediately \n after the"
-                                          " previous one ends?")
+                                          " previous one ends?", bg=self.app.watch_settings_bg, fg=self.app.watch_settings_main_bg)
         run_next_alarm_label.grid(row=1, column=0)
         self.run_next_alarm_immediately_var = IntVar()
-        yes_or_no_label = Label(self.popup_window, text="No")
+        yes_or_no_label = Label(self.popup_window, text="No", bg=self.app.watch_settings_bg, fg=self.app.watch_settings_main_bg)
         yes_or_no_label.grid(row=1, column=2)
         run_next_alarm_immediately_box = Checkbutton(self.popup_window, variable=self.run_next_alarm_immediately_var,
-                                                     command=checkbox_action)
+                                                     command=checkbox_action, bg=self.app.watch_settings_main_bg)
         run_next_alarm_immediately_box.grid(row=1, column=1)
 
-        save_settings_button = Button(self.popup_window, text="Save Settings", command=self.save_settings)
+        save_settings_button = Button(self.popup_window, text="Save Settings", command=self.save_settings,
+                                bg=self.app.watch_settings_popup_button_bg, fg=self.app.watch_settings_popup_button_fg)
         save_settings_button.grid(row=11, column=0)
 
-        remove_watch_button = Button(self.popup_window, text="Remove Watch", command=self.remove_watch_action)
+        remove_watch_button = Button(self.popup_window, text="Remove Watch", command=self.remove_watch_action,
+                                bg=self.app.watch_settings_popup_button_bg, fg=self.app.watch_settings_popup_button_fg)
         remove_watch_button.grid(row=10, column=0)
 
     def save_settings(self):

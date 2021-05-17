@@ -8,21 +8,22 @@ from pieces_of_program.database.__init__ import Database
 class MainApplication:
     watch_total = 0
 
-    notes_saving_color = entry_bg_color = "old lace"
+    button_main_color = entry_bg_color = watch_settings_main_bg = "old lace"
     app_bg_color = "grey30"
     secondary_bg_color = "grey15"
-    alarm_border_color = "grey40"
+    alarm_border_color = watch_settings_bg = "grey40"
     alarm_bg_color = "steel blue"
     watch_menu_label_bg_color = "grey80"
-    add_watch_bg_color = "grey13"
-    add_watch_fg_color = "grey75"
+    watch_popup_main_bg = "grey85"
+    add_watch_bg_color = watch_settings_popup_button_bg = "grey13"
+    add_watch_fg_color = watch_settings_popup_button_fg = add_watch_popup_label_fg = "grey75"
     watches_list_color = "grey85"
     selected_watch_bg_color = "gold"
     digital_timer_font = ("calibri", 30, "italic")
     digital_timer_bg_color = "skyblue1"
     timer_buttons_color = "light blue"
     alarm_labels_color = "lightblue3"
-    notes_bg_color = "azure"
+    third_bg_color = "azure"
 
     def __init__(self):
         self.render()

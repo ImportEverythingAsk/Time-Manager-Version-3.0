@@ -6,7 +6,7 @@ class Watch_Button:
         self.watch_name = watch_name
         self.watch_id = watch_id
     def render(self):
-        self.watch_name_button = Button(self.frame_of_watches, text=self.watch_name, width=23, anchor=W,
+        self.watch_name_button = Button(self.frame_of_watches, text=self.watch_name, width=34, anchor=W,
                                         bg=self.app.selected_watch_bg_color, command=self.watch_clicked)
         self.watch_name_button.grid(row=self.watch_id, column=0, pady=1)
 
